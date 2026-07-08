@@ -1,0 +1,44 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: teltonika-redis
+    restart: unless-stopped
+    ports:
+      - "10.0.1.10:6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --appendfsync everysec
+    networks:
+      - ritlijst-net
+
+  teltonika:
+    build: .
+    image: ghcr.io/wouthankel/teltonika-server:latest
+    container_name: teltonika-server
+    depends_on:
+      - redis
+    ports:
+      - "0.0.0.0:5027:5027"
+    volumes:
+      - ./logs:/app/logs
+      - ./certs:/app/certs:ro
+    restart: unless-stopped
+    environment:
+      - PORT=5027
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_KEY=teltonika:packets
+      - HUB_INGEST_URL=${HUB_INGEST_URL}
+      - TELTONIKA_INGEST_TOKEN=${TELTONIKA_INGEST_TOKEN}
+      - HUB_INGEST_TIMEOUT_MS=${HUB_INGEST_TIMEOUT_MS:-30000}
+      - HUB_INGEST_RETRY_ATTEMPTS=${HUB_INGEST_RETRY_ATTEMPTS:-3}
+      - HUB_INGEST_RETRY_DELAY_MS=${HUB_INGEST_RETRY_DELAY_MS:-1000}
+    networks:
+      - ritlijst-net
+
+volumes:
+  redis-data:
+
+networks:
+  ritlijst-net:
+    external: true

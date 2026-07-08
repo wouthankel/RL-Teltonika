@@ -1,0 +1,12 @@
+{
+  "name": "teltonika-server",
+  "version": "1.0.0",
+  "description": "Teltonika FMC150 TCP data receiver and logger",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "ioredis": "^5.10.1"
+  }
+}
