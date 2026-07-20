@@ -62,10 +62,20 @@ async function enqueue(packet) {
   log.warn(null, 'redis_unavailable_buffered', { buffered: localBuffer.length });
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 // FIFO t.o.v. enqueue (LPUSH aan de kop, BRPOP haalt van de staart).
 // Blokkeert tot er iets is of tot timeoutSeconds verstrijkt (dan null).
+// Let op: bij niet-ready redis moet dit een ECHTE wachttijd hebben (setTimeout,
+// dus een macrotask) - een direct-resolvende promise hier laat de caller
+// (worker.js) in een synchrone while(true)-lus draaien die de event loop
+// volledig opeet (microtask-starvation) en zo redis' eigen 'connect'-event
+// nooit meer aan bod laat komen. Kostte 100% CPU + permanente deadlock.
 async function dequeue(timeoutSeconds = 5) {
-  if (redis.status !== 'ready') return null;
+  if (redis.status !== 'ready') {
+    await sleep(timeoutSeconds * 1000);
+    return null;
+  }
   try {
     const result = await redis.brpop(QUEUE_KEY, timeoutSeconds);
     if (!result) return null;
