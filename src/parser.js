@@ -1400,6 +1400,725 @@ const IO_NAMES = {
   13261: { name: 'driver1_load_unload_time', unit: 's' }, // Driver1 load/unload time
   13262: { name: 'driver2_load_unload_time', unit: 's' }, // Driver2 load/unload time
   13263: { name: 'drivers_private_data_consent', unit: 'raw' }, // Drivers private data consent
+  13651: { name: 'trailer_towing_state', unit: 'raw' }, // Towed vehicle detection status
+  13653: { name: 'trailer_abs_state', unit: 'raw' }, // Trailer ABS Status
+  13654: { name: 'trailer_retarder_control_state', unit: 'raw' }, // Retarder control status
+  13655: { name: 'trailer_red_warning_request_state', unit: 'raw' }, // Red warning request status
+  13656: { name: 'trailer_amber_warning_request_state', unit: 'raw' }, // Amber warning request status
+  13657: { name: 'trailer_axle_load_sum', unit: 'kg' }, // Sum of all axle loads
+  13659: { name: 'trailer_vehicle_service_brake_state', unit: 'raw' }, // Vehicle service brake status
+  13660: { name: 'trailer_power_state', unit: 'raw' }, // Vehicle electrical supply status
+  13661: { name: 'trailer_vehicle_type', unit: 'raw' }, // Vehicle type classification
+  // --- Bulk import from teltonik_avl_id.txt (2026-07-20) ---
+  112: { name: 'can_adblue_volume', unit: 'l' }, // AdBlue (diesel exhaust fluid) volume read from CAN
+  116: { name: 'tacho_driver_work_state', unit: 'raw' }, // Protocol-specific driver work state name
+  117: { name: 'tacho_overspeeding_status', unit: 'bool' }, // Overspeeding status reported by tacho
+  118: { name: 'can_axle_weight', unit: 'kg' }, // Weight on the axle read from CAN
+  119: { name: 'can_axle_weight', unit: 'kg' }, // Weight on the axle read from CAN
+  120: { name: 'can_axle_weight', unit: 'kg' }, // Weight on the axle read from CAN
+  121: { name: 'can_axle_weight', unit: 'kg' }, // Weight on the axle read from CAN
+  122: { name: 'can_axle_weight', unit: 'kg' }, // Weight on the axle read from CAN
+  123: { name: 'can_abs_failure_indicator_status', unit: 'bool' }, // ABS failure indicator status read from CAN
+  124: { name: 'agro_vehicle_state_bitmask', unit: 'raw' }, // Agricultural machinery flags
+  125: { name: 'fms_system_event', unit: 'raw' }, // FMS system event
+  126: { name: 'harvest_area', unit: 'm^2' }, // Area of harvest
+  129: { name: 'grain_moisture_level', unit: '%' }, // Grain moisture
+  130: { name: 'harvest_drum_rpm', unit: 'rpm' }, // Harvesting drum RPM
+  131: { name: 'harvest_drum_gap', unit: 'mm' }, // Gap under harvesting drum
+  132: { name: 'button_pressed_status', unit: 'bool' }, // Any operate button in the car was put
+  133: { name: 'tacho_vehicle_mileage', unit: 'km' }, // Total mileage calculated by tacho
+  134: { name: 'segment_can_vehicle_mileage', unit: 'km' }, // Vehicle mileage on the last segment using CAN data
+  140: { name: 'tacho_driver_continuous_driving_duration', unit: 's' }, // Driver continuous driving time
+  178: { name: 'gsm_network_type', unit: 'raw' }, // The type of the Mobile network the device is currently registered to
+  188: { name: 'tacho_driver_card_presence', unit: 'raw' }, // Tacho driver card presence enum
+  262: { name: 'din', unit: 'raw' }, // Digital inputs bitmask
+  286: { name: 'gsm_signal_dbm', unit: 'dbm' }, // Strength of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  287: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  362: { name: 'device_temperature', unit: '°C' }, // Temperature of device
+  363: { name: 'battery_temperature', unit: '°C' }, // Battery temperature
+  364: { name: 'battery_temperature', unit: '°C' }, // Battery temperature
+  365: { name: 'external_battery_temperature', unit: '°C' }, // External battery temperature
+  366: { name: 'control_module_voltage', unit: 'V' }, // Supply voltage of the central control (system driving voltage)
+  367: { name: 'external_battery_temperature', unit: '°C' }, // External battery temperature
+  369: { name: 'trip_average_speed', unit: 'km/h' }, // Average speed of the trip
+  370: { name: 'external_battery_firmware_version', unit: 'raw' }, // Firmware version of teltonika external battery
+  371: { name: 'internal_battery_firmware_version', unit: 'raw' }, // Firmware version of teltonika internal(IoT) battery
+  372: { name: 'instrument_panel_firmware_version', unit: 'raw' }, // Scooter's Instrument panel FW version
+  374: { name: 'internal_battery_capacity', unit: '%' }, // Current residual capacity percentage of internal battery
+  375: { name: 'external_battery_capacity', unit: '%' }, // Current residual capacity percentage of external battery
+  390: { name: 'can_fuel_volume', unit: 'l' }, // CAN fuel volume
+  392: { name: 'external_sensor_temperature', unit: 'deg' }, // External sensor temperature
+  393: { name: 'external_sensor_temperature', unit: 'deg' }, // External sensor temperature
+  394: { name: 'external_sensor_temperature', unit: 'deg' }, // External sensor temperature
+  395: { name: 'activity_state', unit: 'raw' }, // Device activity state
+  399: { name: 'gnss_first_fix_duration', unit: 's' }, // Amount of time it took to get first GNSS fix
+  401: { name: 'amber_alert_timeout', unit: 'raw' }, // Amber Alert time-out configured value
+  402: { name: 'can_service_mileage', unit: 'km' }, // Service distance read from CAN
+  410: { name: 'can_vehicle_battery_charging_status', unit: 'bool' }, // Vehicle battery charging status get from CAN Bus
+  411: { name: 'can_vehicle_battery_level', unit: '%' }, // CAN-bus reported vehicle battery level for EV or HEV
+  412: { name: 'can_vehicle_battery_power_consumption', unit: 'kWh/100km' }, // Vehicle battery power consumption read from CAN
+  451: { name: 'ble_nbl2_rfid', unit: 'raw' }, // BLE RFID reader Netronix NBL-2 indexed RFID code read
+  452: { name: 'ble_nbl2_rfid', unit: 'raw' }, // BLE RFID reader Netronix NBL-2 indexed RFID code read
+  453: { name: 'ble_nbl2_rfid', unit: 'raw' }, // BLE RFID reader Netronix NBL-2 indexed RFID code read
+  454: { name: 'ble_nbl2_rfid', unit: 'raw' }, // BLE RFID reader Netronix NBL-2 indexed RFID code read
+  455: { name: 'ble_nbl2_button_1_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 1 status (4 programmable button states)
+  456: { name: 'ble_nbl2_button_1_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 1 status (4 programmable button states)
+  457: { name: 'ble_nbl2_button_1_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 1 status (4 programmable button states)
+  458: { name: 'ble_nbl2_button_1_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 1 status (4 programmable button states)
+  459: { name: 'ble_nbl2_button_2_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 2 status (4 programmable button states)
+  460: { name: 'ble_nbl2_button_2_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 2 status (4 programmable button states)
+  461: { name: 'ble_nbl2_button_2_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 2 status (4 programmable button states)
+  462: { name: 'ble_nbl2_button_2_status', unit: 'bool' }, // BLE RFID reader Netronix NBL-2 button 2 status (4 programmable button states)
+  463: { name: 'ble_1_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 1
+  464: { name: 'ble_1_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 1
+  465: { name: 'ble_1_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 1
+  466: { name: 'ble_1_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 1
+  467: { name: 'ble_2_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 2
+  468: { name: 'ble_2_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 2
+  469: { name: 'ble_2_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 2
+  470: { name: 'ble_2_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 2
+  471: { name: 'ble_3_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 3
+  472: { name: 'ble_3_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 3
+  473: { name: 'ble_3_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 3
+  474: { name: 'ble_3_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 3
+  475: { name: 'ble_4_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 4
+  476: { name: 'ble_4_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 4
+  477: { name: 'ble_4_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 4
+  478: { name: 'ble_4_custom', unit: 'raw' }, // Custom indexed element for BLE sensor 4
+  498: { name: 'camera_report_reason', unit: 'raw' }, // Camera report reason
+  499: { name: 'camera_state', unit: 'raw' }, // Front camera ping transmission and TF status checking parameters ID
+  540: { name: 'can_throttle_pedal_level', unit: '%' }, // Throttle pedal push level read from CAN
+  541: { name: 'can_equivalence_ratio', unit: 'raw' }, // Fuel-air commanded equivalence ratio read from CAN
+  542: { name: 'can_intake_map', unit: 'kPa' }, // Intake manifold absolute pressure
+  605: { name: 'adas_lane_departure_event', unit: 'bool' }, // Lane departure event generated by Advanced driver-assistance system (ADAS)
+  606: { name: 'adas_lane_departure_event', unit: 'bool' }, // Lane departure event generated by Advanced driver-assistance system (ADAS)
+  610: { name: 'adas_distance_event', unit: 'bool' }, // Unsafety distance event generated by Advanced driver-assistance system (ADAS)
+  612: { name: 'adas_distance_event', unit: 'bool' }, // Unsafety distance event generated by Advanced driver-assistance system (ADAS)
+  613: { name: 'adas_collision_warning_event', unit: 'bool' }, // Collision warning event generated by Advanced driver-assistance system (ADAS)
+  614: { name: 'adas_pedestrian_event', unit: 'bool' }, // Pedestrian detect event generated by Advanced driver-assistance system (ADAS)
+  619: { name: 'adas_traffic_sign_violation_event', unit: 'bool' }, // Traffic sign violation event generated by Advanced driver-assistance system (ADAS)
+  641: { name: 'gsm_sim_iccid', unit: 'raw' }, // Integrated Circuit Card Id of SIM card of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...)
+  652: { name: 'can_ignition_key_status', unit: 'bool' }, // The key is in ignition lock status, read from CAN
+  755: { name: 'can_vehicle_remaining_range', unit: 'km' }, // Vehicle Range read, from CAN
+  800: { name: 'external_powersource_voltage', unit: 'V' }, // External power voltage
+  801: { name: 'park_brake_status', unit: 'bool' }, // Park brake status: true - active, false - not active
+  802: { name: 'charger_mode', unit: 'bool' }, // Selected charge mode, read from CAN: 0 - default, 1 - fast
+  803: { name: 'charger_mode_state', unit: 'raw' }, // Charger mode state
+  804: { name: 'charger_setpoint_voltage', unit: 'V' }, // Charger svoltage setpoint
+  805: { name: 'charger_setpoint_current', unit: 'amperes' }, // Charger current setpoint
+  806: { name: 'charger_control_mode', unit: 'raw' }, // Charger control mode currently in use
+  807: { name: 'charger_bms_timeout_status', unit: 'bool' }, // Charger BMS COM timeout: true - not expired, false - expired
+  808: { name: 'charger_crc_violation_status', unit: 'bool' }, // Charger CRC violation: true - violation happened, false - no violation
+  809: { name: 'charger_mc_violation_status', unit: 'bool' }, // Charger MC violation: true - violation happened, false - no violation
+  810: { name: 'charger_state', unit: 'raw' }, // Charger state
+  811: { name: 'charger_voltage', unit: 'V' }, // Charger actual voltage
+  812: { name: 'charger_fault_status', unit: 'bool' }, // Charger internal fault status: true - no internal fault happened, false - internal fault happened
+  813: { name: 'charger_energy', unit: 'Wh' }, // Charger actual energy
+  814: { name: 'charger_current', unit: 'amperes' }, // Charger actual current
+  815: { name: 'can_throttle_pedal_level', unit: '%' }, // Throttle pedal push level read from CAN
+  816: { name: 'can_pedal_brake_status', unit: 'bool' }, // Footbrake pedal is depressed, read from CAN
+  817: { name: 'charger_plug_status', unit: 'bool' }, // Charger plug status
+  818: { name: 'kill_switch_status', unit: 'bool' }, // Kill switch status: true - not active, false - active
+  819: { name: 'kickstand_status', unit: 'bool' }, // Kickstand status true - not released, false - released
+  820: { name: 'powertrain_state', unit: 'raw' }, // Powertrain state
+  821: { name: 'malfunction_indicator_status', unit: 'bool' }, // Malfunction indicator status: true - active, false - not active
+  822: { name: 'remaining_range', unit: 'km' }, // Current remaining range
+  823: { name: 'battery_health', unit: '%' }, // Battery health level (SoH)
+  824: { name: 'battery_level', unit: '%' }, // Internal battery level
+  825: { name: 'available_status', unit: 'bool' }, // Vehicle available status: true - available, false - not available
+  826: { name: 'battery_charging_status', unit: 'bool' }, // Battery charging status
+  827: { name: 'charge_time_remining', unit: 'Minutes' }, // Remaining charge time
+  828: { name: 'battery_capacity_remaining', unit: 'Ah' }, // Remaining battery capacity
+  829: { name: 'battery_capacity_full', unit: 'Ah' }, // Full battery capacity
+  830: { name: 'driving_state', unit: 'raw' }, // Vehicle current driving direction state
+  831: { name: 'operating_mode_enum', unit: 'raw' }, // Protocol-specific device operating mode
+  832: { name: 'park_brake_status', unit: 'bool' }, // Park brake status: true - active, false - not active
+  833: { name: 'vehicle_mileage', unit: 'km' }, // Total calculated mileage
+  834: { name: 'trip_mileage', unit: 'km' }, // Distance driven since engine start
+  835: { name: 'can_vehicle_speed', unit: 'km/h' }, // Vehicle speed read from CAN
+  836: { name: 'ignition_state', unit: 'raw' }, // Ignition state according to device manual
+  837: { name: 'engine_ignition_status', unit: 'bool' }, // Engine ignition or ACC status
+  838: { name: 'power_consumtion', unit: 'Wh/km' }, // Vehicle power consumtion
+  839: { name: 'ain', unit: 'V' }, // Voltage on the analog input
+  840: { name: 'ain', unit: 'V' }, // Voltage on the analog input
+  841: { name: 'dout_overcurrent_status', unit: 'bool' }, // Overcurrent status for digital output
+  842: { name: 'dout_overcurrent_status', unit: 'bool' }, // Overcurrent status for digital output
+  843: { name: 'helmet_status', unit: 'bool' }, // Helmet status: true - helmet is in, false - helmet is not in
+  844: { name: 'top_case_status', unit: 'bool' }, // Top case opened status: true - opened, false - closed
+  845: { name: 'central_standup_status', unit: 'bool' }, // Central stuandup up status: true - up, false - down
+  846: { name: 'alarm_event', unit: 'bool' }, // Alarm event triggered
+  847: { name: 'battery_temperature_status', unit: 'bool' }, // Battery temperature status: true - temperature is over or under the normal, false - temperature i...
+  848: { name: 'battery_regeneration_status', unit: 'bool' }, // Battery regeneration status: true - disabled, false - enabled
+  849: { name: 'battery_status', unit: 'bool' }, // Battery on/off status: true - battery is on, false - battery is off
+  850: { name: 'battery_undervoltage_status', unit: 'bool' }, // Battery undervoltage status: true - battery undervoltage, false - no battery undervoltage
+  851: { name: 'battery_overvoltage_status', unit: 'bool' }, // Battery overvoltage status (true - battery overvoltage, false - no battery overvoltage)
+  852: { name: 'battery_short_circuit', unit: 'bool' }, // Battery short circuit (overcurrent) warning status: true - battery short circuit, false - no batt...
+  854: { name: 'custom_user_id', unit: 'raw' }, // Custom number defined as User ID
+  855: { name: 'supersoco_power_status', unit: 'bool' }, // SuperSoco power status: true - ON, false - OFF
+  856: { name: 'supersoco_current_trip_range', unit: 'raw' }, // SuperSoco current trip range
+  857: { name: 'supersoco_total_trip_range', unit: 'raw' }, // SuperSoco total trip range
+  858: { name: 'supersoco_battery_capacity', unit: 'raw' }, // SuperSoco battery capacity left
+  859: { name: 'can_service_required_mileage', unit: 'km' }, // Distance from need of service
+  860: { name: 'can_service_last_mileage', unit: 'km' }, // Distance from last service
+  861: { name: 'can_service_time', unit: 'days' }, // Time to next service
+  862: { name: 'can_service_required_time', unit: 'days' }, // Time from need of service
+  863: { name: 'can_service_last_time', unit: 'days' }, // Time from last serivce
+  864: { name: 'can_oil_service_mileage', unit: 'km' }, // Distance to next oil service
+  865: { name: 'can_oil_service_time', unit: 'days' }, // Time to next oil service
+  867: { name: 'supersoco_battery_energy', unit: 'raw' }, // SuperSoco battery energy
+  868: { name: 'supersoco_power_system_error', unit: 'raw' }, // SuperSoco power system error
+  869: { name: 'supersoco_powertrain_error', unit: 'raw' }, // SuperSoco power traing error
+  870: { name: 'supersoco_instrument_system_error', unit: 'raw' }, // SuperSoco instrument system error
+  871: { name: 'ble_lock_status', unit: 'bool' }, // BLE (Bluetooth Low Energy) Electronic lock is locked
+  872: { name: 'ble_lock_battery_level', unit: '%' }, // BLE (Bluetooth Low Energy) Electronic Lock battery level
+  874: { name: 'proximity_violation_state', unit: 'raw' }, // Bitmask describing the causes of proximity violation
+  875: { name: 'proximity_violation_ident', unit: 'raw' }, // IMEI of the device which violates personal space
+  889: { name: 'proximity_violation_reason', unit: 'raw' }, // Cause of Proximity violation
+  890: { name: 'proximity_duration', unit: 's' }, // Proximity violation duration
+  891: { name: 'ble_mac_address', unit: 'raw' }, // BLE (Bluetooth Low Energy) MAC address
+  898: { name: 'can_engine_ignition_status', unit: 'bool' }, // CAN engine ignition status
+  899: { name: 'can_webasto_status', unit: 'bool' }, // Webasto status read from CAN bus
+  900: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  901: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  902: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  903: { name: 'can_cng_status', unit: 'bool' }, // Compressed natural gas status read from CAN
+  904: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  905: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  906: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  907: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  908: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  909: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  912: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  916: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  917: { name: 'can_car_closed_remote_status', unit: 'bool' }, // Car closed by factory's remote control, read from CAN
+  918: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  919: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  920: { name: 'can_car_closing_remote_event', unit: 'bool' }, // Signal of closing with factory remote control was sent, read from CAN
+  921: { name: 'can_car_opening_remote_event', unit: 'bool' }, // Signal of opening with factory remote control was sent, read from CAN
+  922: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  923: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  924: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  925: { name: 'can_car_triple_closing_remote_event', unit: 'bool' }, // Signal of closing with factory remote control was sent 3 times, read from CAN
+  926: { name: 'can_data_frame', unit: 'raw' }, // CAN data frame value in HEX representation
+  933: { name: 'can_accelerator_pedal_low_idle_switch_state', unit: 'raw' }, // Accelerator pedal low idle switch status, indexed parameter
+  934: { name: 'can_accelerator_pedal_position', unit: '%' }, // Accelerator pedal position read from CAN
+  938: { name: 'can_accelerator_pedal_position', unit: '%' }, // Accelerator pedal position read from CAN
+  939: { name: 'can_acceleration_rate_limit_state', unit: 'raw' }, // Vehicle acceleration rate limit status
+  945: { name: 'can_engine_torque_mode', unit: 'raw' }, // Engine torque mode
+  947: { name: 'can_driver_demand_engine_torque', unit: '%' }, // Requested torque output of the engine by the driver
+  948: { name: 'can_actual_engine_torque', unit: '%' }, // Actual calculated output torque of the engine
+  949: { name: 'can_engine_rpm', unit: 'rpm' }, // Engine RPM read from CAN
+  953: { name: 'can_catalyst_intake_temperature', unit: '°C' }, // Temperature of engine combustion byproducts entering the diesel oxidation catalyst in exhaust ban...
+  954: { name: 'can_catalyst_outlet_temperature', unit: '°C' }, // Temperature of engine combustion byproducts leaving the diesel oxidation catalyst exhaust in exha...
+  955: { name: 'can_catalyst_differential_pressure', unit: 'kPa' }, // Exhaust differential pressure measured between the intake and exhaust of a diesel oxidation catal...
+  974: { name: 'can_gas_fuel_consumed', unit: 'kg' }, // Natural gas fuel amount totally consumed by vehicle read from CAN
+  989: { name: 'can_trip_vehicle_mileage', unit: 'km' }, // Distance travelled during all or part of a journey
+  990: { name: 'can_vehicle_mileage', unit: 'km' }, // Total vehicle mileage read from CAN
+  991: { name: 'can_engine_motorhours', unit: 'hours' }, // Total engine motorhours (engine work time) read from CAN
+  993: { name: 'can_vehicle_motorhours', unit: 'hours' }, // Accumulated time of operation of vehicle
+  996: { name: 'can_fuel_consumed', unit: 'l' }, // Fuel volume totally consumed by vehicle read from CAN
+  1002: { name: 'can_engine_coolant_temperature', unit: '°C' }, // Engine coolant temperature read from CAN
+  1005: { name: 'can_engine_turbocharger_oil_temperature', unit: '°C' }, // Temperature of the turbocharger lubricant
+  1006: { name: 'can_engine_intercooler_temperature', unit: '°C' }, // Temperature of liquid found in the intercooler located after the turbocharger
+  1019: { name: 'can_wheel_speed', unit: 'km/h' }, // Vehicle wheel based speed, read from CAN bus
+  1035: { name: 'can_engine_fuel_rate', unit: 'liters/h' }, // Engine fuel rate read from CAN
+  1036: { name: 'can_fuel_economy', unit: 'km/liters' }, // CAN instantaneous fuel economy
+  1037: { name: 'can_average_fuel_economy', unit: 'km/liters' }, // CAN average fuel economy
+  1048: { name: 'can_intake_air_pressure', unit: 'kPa' }, // Absolute air pressure at input port to intake manifold or air box
+  1053: { name: 'can_alternator_current', unit: 'amperes' }, // Measure of electrical current flow from the alternator
+  1066: { name: 'can_fuel_level', unit: '%' }, // Fuel level in tank read from CAN
+  1070: { name: 'can_fuel_level', unit: '%' }, // Fuel level in tank read from CAN
+  1083: { name: 'can_dual_fuel_status', unit: 'bool' }, // Engine working on dual fuel status, read from CAN bus
+  1084: { name: 'can_lpg_fuel_status', unit: 'bool' }, // Engine working on LPG fuel status, read from CAN bus
+  1120: { name: 'can_brake_pressure', unit: 'kPa' }, // Brake application pressure from CAN bus
+  1126: { name: 'can_max_available_power', unit: 'W' }, // Maximum available power from CAN bus
+  1127: { name: 'can_handlebar_lock_status', unit: 'bool' }, // Handlebar lock status from CAN bus
+  1128: { name: 'can_rear_brake_status', unit: 'bool' }, // Rear brake status from CAN bus
+  1129: { name: 'can_com_error_status', unit: 'bool' }, // COM Error status from CAN bus
+  1130: { name: 'can_engine_rpm', unit: 'rpm' }, // Engine RPM read from CAN
+  1131: { name: 'can_torque_current', unit: 'amperes' }, // Torque current from CAN bus
+  1132: { name: 'can_sn_high', unit: 'raw' }, // SN High from CAN bus
+  1133: { name: 'can_sn_low', unit: 'raw' }, // SN Low from CAN bus
+  1134: { name: 'can_lowest_battery_voltage', unit: 'V' }, // Lowest Battery Voltage from CAN bus
+  1135: { name: 'can_lowest_battery_code', unit: 'raw' }, // Lowest battery ID code from CAN bus
+  1136: { name: 'can_highest_battery_voltage', unit: 'V' }, // Highest battery voltage from CAN bus
+  1138: { name: 'can_highest_mismatch_voltage', unit: 'V' }, // Highest mismatch voltage from CAN bus
+  1139: { name: 'can_highest_mismatch_code', unit: 'raw' }, // Highest mismatch ID code from CAN bus
+  1140: { name: 'can_lowest_battery_temperature', unit: '°C' }, // Lowest battery temperature from CAN bus
+  1141: { name: 'can_lowest_battery_temperature_code', unit: 'raw' }, // Lowest temperature battery ID code from CAN bus
+  1142: { name: 'can_highest_battery_temperature', unit: '°C' }, // Highest battery temperature from CAN bus
+  1143: { name: 'can_highest_battery_temperature_code', unit: 'raw' }, // Highest temperature battery ID code from CAN bus
+  1145: { name: 'can_discharge_time', unit: 's' }, // Time to empty from CAN bus
+  1146: { name: 'can_full_charge_time', unit: 's' }, // Time to full charge from CAN bus
+  1147: { name: 'can_cluster_state_enum', unit: 'raw' }, // Cluster state from CAN bus
+  1149: { name: 'can_max_discharge_current', unit: 'amperes' }, // Max discharge current from CAN bus
+  1150: { name: 'can_recuperation_status', unit: 'bool' }, // Recuperation status from CAN bus
+  1151: { name: 'can_switch_process_status', unit: 'bool' }, // Switch process status from CAN bus
+  1152: { name: 'can_soc_switch_level', unit: '%' }, // SoC switch level from CAN bus
+  1153: { name: 'can_part_charge_capacity', unit: 'Ah' }, // Part charge capacity
+  1154: { name: 'can_cluster_voltage', unit: 'V' }, // Cluster voltage from CAN bus
+  1160: { name: 'can_activated_batteries', unit: 'raw' }, // Activated batteries from CAN bus
+  1162: { name: 'can_battery1_voltage', unit: 'V' }, // Battery 1 voltage from CAN bus
+  1163: { name: 'can_battery1_current', unit: 'amperes' }, // Battery 1 current from CAN bus
+  1164: { name: 'can_battery1_state_enum', unit: 'raw' }, // Battery 1 state from CAN bus
+  1165: { name: 'can_battery1_soc', unit: 'raw' }, // Battery 1 SoC from CAN bus
+  1166: { name: 'can_battery1_temperature', unit: '°C' }, // Indexed battery 1 temperature from CAN bus
+  1167: { name: 'can_battery1_temperature', unit: '°C' }, // Indexed battery 1 temperature from CAN bus
+  1168: { name: 'can_battery1_power_stage_temperature', unit: '°C' }, // Battery 1 power stage temp from CAN bus
+  1169: { name: 'can_battery1_remaining_capacity', unit: 'Ah' }, // Battery 1 remaining capacity from CAN bus
+  1170: { name: 'can_battery2_voltage', unit: 'V' }, // Battery 2 voltage from CAN bus
+  1171: { name: 'can_battery2_current', unit: 'amperes' }, // Battery 2 current from CAN bus
+  1172: { name: 'can_battery2_state_enum', unit: 'raw' }, // Battery 2 state from CAN bus
+  1173: { name: 'can_battery2_soc', unit: 'raw' }, // Battery 2 SoC from CAN bus
+  1174: { name: 'can_battery2_temperature', unit: '°C' }, // Indexed battery 2 temperature from CAN bus
+  1175: { name: 'can_battery2_temperature', unit: '°C' }, // Indexed battery 2 temperature from CAN bus
+  1176: { name: 'can_battery2_power_stage_temperature', unit: '°C' }, // Battery 2 power stage temp from CAN bus
+  1177: { name: 'can_battery2_remaining_capacity', unit: 'Ah' }, // Battery 2 remaining capacity from CAN bus
+  1178: { name: 'can_battery_error_code', unit: 'raw' }, // Battery error code read from CAN
+  1179: { name: 'can_battery_error_code', unit: 'raw' }, // Battery error code read from CAN
+  1180: { name: 'can_cluster_error_code', unit: 'raw' }, // Cluster error code from CAN bus in hex form
+  1181: { name: 'can_max_charge_current', unit: 'amperes' }, // Max charge current from CAN bus
+  1182: { name: 'can_dtc_number', unit: 'raw' }, // Number of diagnostic trouble codes
+  1183: { name: 'can_fuel_level', unit: '%' }, // Fuel level in tank read from CAN
+  1184: { name: 'can_battery_voltage', unit: 'V' }, // Battery voltage read from CAN
+  1185: { name: 'can_fuel_idle_consumed', unit: 'l' }, // Fuel volume totally consumed during idling state of the vehicle read from CAN
+  1186: { name: 'can_trip_vehicle_mileage', unit: 'km' }, // Distance travelled during all or part of a journey
+  1187: { name: 'can_fuel_economy', unit: 'km/liters' }, // CAN instantaneous fuel economy
+  1188: { name: 'can_ambient_air_temperature', unit: '°C' }, // CAN ambient air temperature
+  1189: { name: 'can_engine_load', unit: '%' }, // Engine percent load at current speed
+  1191: { name: 'can_engine_oil_temperature', unit: '°C' }, // Engine oil temperature read from CAN
+  1192: { name: 'can_trip_fuel_consumed', unit: 'l' }, // Volume of liquid fuel consumed during the trip, read from CAN
+  1193: { name: 'can_engine_oil_pressure', unit: 'kPa' }, // CAN Engine oil pressure
+  1194: { name: 'can_driver_seatbelt_status', unit: 'bool' }, // Driver's seatbelt fastened status, read from CAN
+  1195: { name: 'can_cruise_control_state', unit: 'raw' }, // Cruise control state read from CAN
+  1196: { name: 'can_throttle_pedal_level', unit: '%' }, // Throttle pedal push level read from CAN
+  1197: { name: 'can_engine_coolant_level', unit: '%' }, // Engine coolant level read from CAN
+  1198: { name: 'can_engine_coolant_pressure', unit: 'kPa' }, // Engine coolant pressure
+  1199: { name: 'can_transmission_oil_temperature', unit: '°C' }, // Transmission oil temperature reaed from CAN
+  1200: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  1201: { name: 'can_brake_pedal_level', unit: '%' }, // Brake pedal push level read from CAN
+  1202: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  1203: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  1378: { name: 'can_hybrid_battery_min_cell_voltage', unit: 'V' }, // OEM HV Battery Min Cell Voltage read from CAN
+  1379: { name: 'can_hybrid_battery_max_cell_voltage', unit: 'V' }, // OEM HV Battery Max Cell Voltage read from CAN
+  1380: { name: 'can_hybrid_battery_current', unit: 'amperes' }, // OEM HV Battery Current read from CAN
+  1381: { name: 'can_hybrid_battery_voltage', unit: 'V' }, // OEM HV Battery High Voltage read from CAN
+  1382: { name: 'can_hybrid_battery_capacity', unit: 'kWh' }, // OEM HV Battery Max Energy read from CAN
+  1383: { name: 'can_hybrid_battery_measured_capacity', unit: 'kWh' }, // OEM HV Battery Measured Energy read from CAN
+  1386: { name: 'can_hybrid_battery_min_temperature', unit: '°C' }, // OEM HV Battery Min Cell Temperature read from CAN
+  1387: { name: 'can_hybrid_battery_max_temperature', unit: '°C' }, // OEM HV Battery Max Cell Temperature read from CAN
+  1388: { name: 'can_vehicle_battery_energy_consumed', unit: 'kWh' }, // Energy consumed from the vehicle battery read from CAN
+  1389: { name: 'can_vehicle_battery_total_charge_energy', unit: 'kWh' }, // Vehicle battery charged total energy, read from CAN
+  1433: { name: 'dead_reckoning_calibration_state', unit: 'raw' }, // Dead Reckoning Calibration Status
+  1443: { name: 'distance_since_refuel', unit: 'km' }, // Calculated distance covered after the latest refueling
+  10040: { name: 'freezer_fuel_level', unit: '%' }, // Freezer fuel level
+  10041: { name: 'freezer_battery_voltage', unit: 'V' }, // Freezer battery voltage
+  10042: { name: 'freezer_electric_total', unit: 'hours' }, // Freezer electric total
+  10043: { name: 'freezer_vehicle_total', unit: 'hours' }, // Freezer vehicle total
+  10044: { name: 'freezer_engine_total', unit: 'hours' }, // Freezer engine total
+  10053: { name: 'freezer_zone1_operating_mode', unit: 'raw' }, // Freezer zone 1 operating mode
+  10054: { name: 'freezer_zone2_alarm_type', unit: 'raw' }, // Freezer zone 2 alarm type
+  10055: { name: 'freezer_zone2_alarm_code', unit: 'raw' }, // Freezer zone 2 alarm code
+  10062: { name: 'freezer_zone2_operating_mode', unit: 'raw' }, // Freezer zone 2 operating mode
+  10216: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10217: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10218: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10219: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10220: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10221: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10222: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10223: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10224: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10225: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10226: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10227: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10228: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10229: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10230: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10231: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10232: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10233: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10234: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10235: { name: 'manual_can', unit: 'raw' }, // Indexed Manual CAN parameter value
+  10352: { name: 'freezer_error_count', unit: 'raw' }, // Freezer error count
+  10355: { name: 'freezer_door_status', unit: 'raw' }, // Freezer door status bitmask
+  10357: { name: 'freezer_trailer_serial', unit: 'raw' }, // Freezer trailer serial
+  10358: { name: 'manual_can_extended', unit: 'raw' }, // HEX representation of Manual CAN Extended
+  10800: { name: 'ble_sensor_temperature', unit: '°C' }, // BLE (Bluetooth Low Energy) sensor Temperature value
+  10801: { name: 'ble_sensor_temperature', unit: '°C' }, // BLE (Bluetooth Low Energy) sensor Temperature value
+  10802: { name: 'ble_sensor_temperature', unit: '°C' }, // BLE (Bluetooth Low Energy) sensor Temperature value
+  10803: { name: 'ble_sensor_temperature', unit: '°C' }, // BLE (Bluetooth Low Energy) sensor Temperature value
+  10804: { name: 'ble_sensor_humidity', unit: '%' }, // BLE (Bluetooth Low Energy) sensor Humidity value
+  10805: { name: 'ble_sensor_humidity', unit: '%' }, // BLE (Bluetooth Low Energy) sensor Humidity value
+  10806: { name: 'ble_sensor_humidity', unit: '%' }, // BLE (Bluetooth Low Energy) sensor Humidity value
+  10807: { name: 'ble_sensor_humidity', unit: '%' }, // BLE (Bluetooth Low Energy) sensor Humidity value
+  10808: { name: 'ble_sensor_magnet_status', unit: 'bool' }, // Indexed magnet state measured by BLE sensor
+  10809: { name: 'ble_sensor_magnet_status', unit: 'bool' }, // Indexed magnet state measured by BLE sensor
+  10810: { name: 'ble_sensor_magnet_status', unit: 'bool' }, // Indexed magnet state measured by BLE sensor
+  10811: { name: 'ble_sensor_magnet_status', unit: 'bool' }, // Indexed magnet state measured by BLE sensor
+  10812: { name: 'ble_sensor_movement_error_code', unit: 'raw' }, // Indexed movement BLE sensor error code
+  10813: { name: 'ble_sensor_movement_error_code', unit: 'raw' }, // Indexed movement BLE sensor error code
+  10814: { name: 'ble_sensor_movement_error_code', unit: 'raw' }, // Indexed movement BLE sensor error code
+  10815: { name: 'ble_sensor_movement_error_code', unit: 'raw' }, // Indexed movement BLE sensor error code
+  10816: { name: 'ble_sensor_pitch_angle', unit: 'deg' }, // Indexed pitch angle measured by BLE sensor
+  10817: { name: 'ble_sensor_pitch_angle', unit: 'deg' }, // Indexed pitch angle measured by BLE sensor
+  10818: { name: 'ble_sensor_pitch_angle', unit: 'deg' }, // Indexed pitch angle measured by BLE sensor
+  10819: { name: 'ble_sensor_pitch_angle', unit: 'deg' }, // Indexed pitch angle measured by BLE sensor
+  10820: { name: 'ble_sensor_low_battery_error_code', unit: 'raw' }, // Indexed BLE low battery sensor error description
+  10821: { name: 'ble_sensor_low_battery_error_code', unit: 'raw' }, // Indexed BLE low battery sensor error description
+  10822: { name: 'ble_sensor_low_battery_error_code', unit: 'raw' }, // Indexed BLE low battery sensor error description
+  10823: { name: 'ble_sensor_low_battery_error_code', unit: 'raw' }, // Indexed BLE low battery sensor error description
+  10824: { name: 'ble_sensor_battery_voltage', unit: 'V' }, // BLE (Bluetooth Low Energy) sensor battery voltage
+  10825: { name: 'ble_sensor_battery_voltage', unit: 'V' }, // BLE (Bluetooth Low Energy) sensor battery voltage
+  10826: { name: 'ble_sensor_battery_voltage', unit: 'V' }, // BLE (Bluetooth Low Energy) sensor battery voltage
+  10827: { name: 'ble_sensor_battery_voltage', unit: 'V' }, // BLE (Bluetooth Low Energy) sensor battery voltage
+  10832: { name: 'ble_sensor_roll_angle', unit: 'deg' }, // Indexed roll angle measured by BLE sensor
+  10833: { name: 'ble_sensor_roll_angle', unit: 'deg' }, // Indexed roll angle measured by BLE sensor
+  10834: { name: 'ble_sensor_roll_angle', unit: 'deg' }, // Indexed roll angle measured by BLE sensor
+  10835: { name: 'ble_sensor_roll_angle', unit: 'deg' }, // Indexed roll angle measured by BLE sensor
+  10836: { name: 'ble_sensor_movement_count', unit: 'raw' }, // Indexed movement count value of BLE Sensor
+  10837: { name: 'ble_sensor_movement_count', unit: 'raw' }, // Indexed movement count value of BLE Sensor
+  10838: { name: 'ble_sensor_movement_count', unit: 'raw' }, // Indexed movement count value of BLE Sensor
+  10839: { name: 'ble_sensor_movement_count', unit: 'raw' }, // Indexed movement count value of BLE Sensor
+  10840: { name: 'ble_sensor_magnet_count', unit: 'raw' }, // Indexed magnet count value of BLE Sensor
+  10841: { name: 'ble_sensor_magnet_count', unit: 'raw' }, // Indexed magnet count value of BLE Sensor
+  10842: { name: 'ble_sensor_magnet_count', unit: 'raw' }, // Indexed magnet count value of BLE Sensor
+  10843: { name: 'ble_sensor_magnet_count', unit: 'raw' }, // Indexed magnet count value of BLE Sensor
+  11700: { name: 'dsm_fatigue_event', unit: 'bool' }, // Driver fatigue event generated by Driver status monitoring system (DSM)
+  11701: { name: 'dsm_distraction_event', unit: 'bool' }, // Driver distraction event generated by Driver status monitoring system (DSM)
+  11702: { name: 'dsm_yawning_event', unit: 'bool' }, // Driver yawning event generated by Driver status monitoring system (DSM)
+  11703: { name: 'dsm_driver_phone_event', unit: 'bool' }, // Driver using the phone event generated by Driver status monitoring system (DSM)
+  11704: { name: 'dsm_smoking_event', unit: 'bool' }, // Driver smoking event generated by Driver status monitoring system (DSM)
+  11705: { name: 'dsm_driver_missing_event', unit: 'bool' }, // Driver missing event generated by Driver status monitoring system (DSM)
+  11706: { name: 'dsm_driver_mask_event', unit: 'bool' }, // Driver wearing mask event generated by Driver status monitoring system (DSM)
+  11713: { name: 'dsm_seatbelt_event', unit: 'bool' }, // Driver seatbelt event generated by Driver status monitoring system (DSM)
+  12000: { name: 'fms_event_enum', unit: 'raw' }, // FMS Eco driving event IO ID
+  12001: { name: 'fms_active_driver_id', unit: 'raw' }, // FMS Eco driving active driver ID
+  12002: { name: 'fms_vehicle_vin', unit: 'raw' }, // FMS Eco driving VIN
+  12003: { name: 'fms_event_number', unit: 'raw' }, // FMS Eco driving event counter
+  12010: { name: 'fms_coasting_mileage', unit: 'km' }, // FMS Eco driving coasting distance
+  12011: { name: 'fms_coasting_fuel_used', unit: 'l' }, // FMS Eco driving coasting fuel used
+  12012: { name: 'fms_coasting_time', unit: 's' }, // FMS Eco driving coasting time
+  12013: { name: 'fms_ecoroll_mileage', unit: 'km' }, // FMS Eco driving EcoRoll distance
+  12014: { name: 'fms_ecoroll_fuel_used', unit: 'l' }, // FMS Eco driving EcoRoll fuel used
+  12015: { name: 'fms_ecoroll_time', unit: 's' }, // FMS Eco driving EcoRoll time
+  12016: { name: 'fms_braking_mileage', unit: 'km' }, // FMS Eco driving Braking distance
+  12017: { name: 'fms_braking_fuel_used', unit: 'l' }, // FMS Eco driving Braking fuel used
+  12018: { name: 'fms_braking_time', unit: 's' }, // FMS Eco driving Braking time
+  12019: { name: 'fms_braking_number', unit: 'raw' }, // FMS Eco driving Braking count
+  12020: { name: 'fms_retarder_mileage', unit: 'km' }, // FMS Eco driving Retarder distance
+  12021: { name: 'fms_retarder_fuel_used', unit: 'l' }, // FMS Eco driving Retarder fuel used
+  12022: { name: 'fms_retarder_time', unit: 's' }, // FMS Eco driving Retarder time
+  12023: { name: 'fms_cruise_mileage', unit: 'km' }, // FMS Eco driving Cruise distance
+  12024: { name: 'fms_cruise_fuel_used', unit: 'l' }, // FMS Eco driving Cruise fuel used
+  12025: { name: 'fms_cruise_time', unit: 's' }, // FMS Eco driving Cruise time
+  12026: { name: 'fms_torque_mileage', unit: 'km' }, // FMS Eco driving Torque distance
+  12027: { name: 'fms_torque_fuel_used', unit: 'l' }, // FMS Eco driving Torque fuel used
+  12028: { name: 'fms_torque_time', unit: 's' }, // FMS Eco driving Torque time
+  12029: { name: 'fms_pto_mileage', unit: 'km' }, // FMS Eco driving PTO distance
+  12030: { name: 'fms_pto_fuel_used', unit: 'l' }, // FMS Eco driving PTO fuel used
+  12031: { name: 'fms_pto_time', unit: 's' }, // FMS Eco driving PTO time
+  12032: { name: 'fms_driving_fuel_used', unit: 'l' }, // FMS Eco driving fuel used while driving
+  12033: { name: 'fms_idle_fuel_used', unit: 'l' }, // FMS Eco driving fuel used while idling
+  12034: { name: 'fms_engine_load_fuel_used', unit: 'l' }, // FMS Eco driving fuel used while engine load
+  12035: { name: 'fms_total_mileage', unit: 'km' }, // FMS Eco driving total distance
+  12036: { name: 'fms_total_fuel_used', unit: 'l' }, // FMS Eco driving total fuel used
+  12037: { name: 'fms_total_time', unit: 's' }, // FMS Eco driving total time
+  12050: { name: 'fms_short_stops_number', unit: 'raw' }, // FMS Eco driving short stops count
+  12051: { name: 'fms_long_stops_number', unit: 'raw' }, // FMS Eco driving long stops count
+  12052: { name: 'fms_parking_brake_number', unit: 'raw' }, // FMS Eco driving parking brake count
+  12053: { name: 'fms_harsh_acceleration_number', unit: 'raw' }, // FMS Eco driving harsh acceleration count
+  12054: { name: 'fms_harsh_braking_number', unit: 'raw' }, // FMS Eco driving harsh braking count
+  12055: { name: 'fms_harsh_cornering_number', unit: 'raw' }, // FMS Eco driving harsh cornering count
+  12100: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12101: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12102: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12103: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12104: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12105: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12106: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12107: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12108: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12109: { name: 'fms_mileage_speed_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for speed range 1 to 10
+  12110: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12111: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12112: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12113: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12114: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12115: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12116: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12117: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12118: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12119: { name: 'fms_fuel_used_speed_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for speed range 1 to 10
+  12120: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12121: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12122: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12123: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12124: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12125: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12126: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12127: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12128: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12129: { name: 'fms_time_speed_range', unit: 's' }, // FMS Eco driving time indexed parameter for speed range 1 to 10
+  12130: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12131: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12132: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12133: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12134: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12135: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12136: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12137: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12138: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12139: { name: 'fms_mileage_rpm_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for RPM range 1 to 10
+  12140: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12141: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12142: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12143: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12144: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12145: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12146: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12147: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12148: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12149: { name: 'fms_fuel_used_rpm_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for RPM range 1 to 10
+  12150: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12151: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12152: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12153: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12154: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12155: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12156: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12157: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12158: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12159: { name: 'fms_time_rpm_range', unit: 's' }, // FMS Eco driving time indexed parameter for RPM range 1 to 10
+  12160: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12161: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12162: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12163: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12164: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12165: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12166: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12167: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12168: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12169: { name: 'fms_mileage_torque_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for torque range 1 to 10
+  12170: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12171: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12172: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12173: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12174: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12175: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12176: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12177: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12178: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12179: { name: 'fms_fuel_used_torque_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for torque range 1 to 10
+  12180: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12181: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12182: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12183: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12184: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12185: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12186: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12187: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12188: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12189: { name: 'fms_time_torque_range', unit: 's' }, // FMS Eco driving time indexed parameter for torque range 1 to 10
+  12190: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12191: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12192: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12193: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12194: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12195: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12196: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12197: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12198: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12199: { name: 'fms_mileage_braking_range', unit: 'km' }, // FMS Eco driving distance indexed parameter for braking range 1 to 10
+  12200: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12201: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12202: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12203: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12204: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12205: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12206: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12207: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12208: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12209: { name: 'fms_fuel_used_braking_range', unit: 'l' }, // FMS Eco driving fuel used indexed parameter for braking range 1 to 10
+  12210: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12211: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12212: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12213: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12214: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12215: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12216: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12217: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12218: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  12219: { name: 'fms_time_braking_range', unit: 's' }, // FMS Eco driving time indexed parameter for braking range 1 to 10
+  13266: { name: 'log_file_current', unit: 'raw' }, // Current active log file
+  13267: { name: 'log_file_max_count', unit: 'raw' }, // Max log file count
+  13361: { name: 'phone_call_state_enum', unit: 'raw' }, // Phone call status
+  13370: { name: 'gsm_mcc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) country code
+  13371: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  13372: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  13373: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  13374: { name: 'gsm_mcc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) country code
+  13375: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  13376: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  13377: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  13378: { name: 'gsm_mcc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) country code
+  13379: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  13380: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  13381: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  13382: { name: 'gsm_mcc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) country code
+  13383: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  13384: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  13385: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  13386: { name: 'gsm_mcc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) country code
+  13387: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  13388: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  13389: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  13652: { name: 'trailer_ebs_vehicle_speed', unit: 'km/h' }, // Vehicle speed from EBS (Electronic Braking System)
+  13658: { name: 'trailer_retarder_wheel_torque_load', unit: '%' }, // Retarder wheel torque
+  13662: { name: 'trailer_towing_vehicle_axle_load', unit: 'kg' }, // Towed vehicle axle load
+  13663: { name: 'trailer_scale_axle_load', unit: 'kg' }, // Scale axle load measurement
+  13664: { name: 'trailer_calibration_load_level_state_enum', unit: 'raw' }, // Calibration load level status
+  13665: { name: 'trailer_braking_cylinder_pressure_axle_1_left', unit: 'kPa' }, // Braking cylinder pressure for axle 1 left side
+  13666: { name: 'trailer_braking_cylinder_pressure_axle_1_right', unit: 'kPa' }, // Braking cylinder pressure for axle 1 right side
+  13667: { name: 'trailer_braking_cylinder_pressure_axle_2_left', unit: 'kPa' }, // Braking cylinder pressure for axle 2 left side
+  13668: { name: 'trailer_braking_cylinder_pressure_axle_2_right', unit: 'kPa' }, // Braking cylinder pressure for axle 2 right side
+  13669: { name: 'trailer_braking_cylinder_pressure_axle_3_left', unit: 'kPa' }, // Braking cylinder pressure for axle 3 left side
+  13670: { name: 'trailer_braking_cylinder_pressure_axle_3_right', unit: 'kPa' }, // Braking cylinder pressure for axle 3 right side
+  13671: { name: 'can_trailer_vin', unit: 'raw' }, // Trailer VIN number, read from CAN
+  13674: { name: 'trailer_loading_ramp_approach_assistance_state_enum', unit: 'raw' }, // Loading ramp approach assistance status
+  13677: { name: 'trailer_braking_electric_control_line_support_state_enum', unit: 'raw' }, // Braking via electric control line support status
+  13679: { name: 'trailer_yc_system_state_enum', unit: 'raw' }, // YC (Yaw Control) system status
+  13680: { name: 'trailer_traction_help_state_enum', unit: 'raw' }, // Traction help system status
+  13681: { name: 'trailer_lift_axle_1_position_state_enum', unit: 'raw' }, // Lift axle 1 position status
+  13682: { name: 'trailer_lift_axle_2_position_state_enum', unit: 'raw' }, // Lift axle 2 position status
+  13683: { name: 'trailer_steering_axle_locking_state_enum', unit: 'raw' }, // Steering axle locking status
+  13684: { name: 'trailer_tire_pressure_state_axle_1_wheel_6_tire_enum', unit: 'raw' }, // Tire pressure status for axle 1 wheel 6
+  13685: { name: 'trailer_tire_pressure_state_axle_1_wheel_7_tire_enum', unit: 'raw' }, // Tire pressure status for axle 1 wheel 7
+  13686: { name: 'trailer_tire_pressure_state_axle_1_wheel_8_tire_enum', unit: 'raw' }, // Tire pressure status for axle 1 wheel 8
+  13687: { name: 'trailer_tire_pressure_state_axle_1_wheel_9_tire_enum', unit: 'raw' }, // Tire pressure status for axle 1 wheel 9
+  13688: { name: 'trailer_tire_pressure_state_axle_1_wheel_10_tire_enum', unit: 'raw' }, // Tire pressure status for axle 1 wheel 10
+  13689: { name: 'trailer_tire_pressure_state_axle_2_wheel_6_tire_enum', unit: 'raw' }, // Tire pressure status for axle 2 wheel 6
+  13690: { name: 'trailer_tire_pressure_state_axle_2_wheel_7_tire_enum', unit: 'raw' }, // Tire pressure status for axle 2 wheel 7
+  13691: { name: 'trailer_tire_pressure_state_axle_2_wheel_8_tire_enum', unit: 'raw' }, // Tire pressure status for axle 2 wheel 8
+  13692: { name: 'trailer_tire_pressure_state_axle_2_wheel_9_tire_enum', unit: 'raw' }, // Tire pressure status for axle 2 wheel 9
+  13693: { name: 'trailer_tire_pressure_state_axle_2_wheel_10_tire_enum', unit: 'raw' }, // Tire pressure status for axle 2 wheel 10
+  13694: { name: 'trailer_tire_pressure_state_axle_3_wheel_6_tire_enum', unit: 'raw' }, // Tire pressure status for axle 3 wheel 6
+  13695: { name: 'trailer_tire_pressure_state_axle_3_wheel_7_tire_enum', unit: 'raw' }, // Tire pressure status for axle 3 wheel 7
+  13696: { name: 'trailer_tire_pressure_state_axle_3_wheel_8_tire_enum', unit: 'raw' }, // Tire pressure status for axle 3 wheel 8
+  13697: { name: 'trailer_tire_pressure_state_axle_3_wheel_9_tire_enum', unit: 'raw' }, // Tire pressure status for axle 3 wheel 9
+  13698: { name: 'trailer_tire_pressure_state_axle_3_wheel_10_tire_enum', unit: 'raw' }, // Tire pressure status for axle 3 wheel 10
+  13699: { name: 'trailer_tire_pressure_axle_1_wheel_6', unit: 'kPa' }, // Tire pressure for axle 1 wheel 6
+  13700: { name: 'trailer_tire_pressure_axle_1_wheel_7', unit: 'kPa' }, // Tire pressure for axle 1 wheel 7
+  13701: { name: 'trailer_tire_pressure_axle_1_wheel_8', unit: 'kPa' }, // Tire pressure for axle 1 wheel 8
+  13702: { name: 'trailer_tire_pressure_axle_1_wheel_9', unit: 'kPa' }, // Tire pressure for axle 1 wheel 9
+  13703: { name: 'trailer_tire_pressure_axle_1_wheel_10', unit: 'kPa' }, // Tire pressure for axle 1 wheel 10
+  13704: { name: 'trailer_tire_pressure_axle_2_wheel_6', unit: 'kPa' }, // Tire pressure for axle 2 wheel 6
+  13705: { name: 'trailer_tire_pressure_axle_2_wheel_7', unit: 'kPa' }, // Tire pressure for axle 2 wheel 7
+  13706: { name: 'trailer_tire_pressure_axle_2_wheel_8', unit: 'kPa' }, // Tire pressure for axle 2 wheel 8
+  13707: { name: 'trailer_tire_pressure_axle_2_wheel_9', unit: 'kPa' }, // Tire pressure for axle 2 wheel 9
+  13708: { name: 'trailer_tire_pressure_axle_2_wheel_10', unit: 'kPa' }, // Tire pressure for axle 2 wheel 10
+  13709: { name: 'trailer_tire_pressure_axle_3_wheel_6', unit: 'kPa' }, // Tire pressure for axle 3 wheel 6
+  13710: { name: 'trailer_tire_pressure_axle_3_wheel_7', unit: 'kPa' }, // Tire pressure for axle 3 wheel 7
+  13711: { name: 'trailer_tire_pressure_axle_3_wheel_8', unit: 'kPa' }, // Tire pressure for axle 3 wheel 8
+  13712: { name: 'trailer_tire_pressure_axle_3_wheel_9', unit: 'kPa' }, // Tire pressure for axle 3 wheel 9
+  13713: { name: 'trailer_tire_pressure_axle_3_wheel_10', unit: 'kPa' }, // Tire pressure for axle 3 wheel 10
+  13714: { name: 'trailer_brake_lining_axle_1_wheel_6_state_enum', unit: 'raw' }, // Brake lining status for axle 1 wheel 6
+  13715: { name: 'trailer_brake_lining_axle_1_wheel_7_state_enum', unit: 'raw' }, // Brake lining status for axle 1 wheel 7
+  13716: { name: 'trailer_brake_lining_axle_1_wheel_8_state_enum', unit: 'raw' }, // Brake lining status for axle 1 wheel 8
+  13717: { name: 'trailer_brake_lining_axle_1_wheel_9_state_enum', unit: 'raw' }, // Brake lining status for axle 1 wheel 9
+  13718: { name: 'trailer_brake_lining_axle_1_wheel_10_state_enum', unit: 'raw' }, // Brake lining status for axle 1 wheel 10
+  13719: { name: 'trailer_brake_lining_axle_2_wheel_6_state_enum', unit: 'raw' }, // Brake lining status for axle 2 wheel 6
+  13720: { name: 'trailer_brake_lining_axle_2_wheel_7_state_enum', unit: 'raw' }, // Brake lining status for axle 2 wheel 7
+  13721: { name: 'trailer_brake_lining_axle_2_wheel_8_state_enum', unit: 'raw' }, // Brake lining status for axle 2 wheel 8
+  13722: { name: 'trailer_brake_lining_axle_2_wheel_9_state_enum', unit: 'raw' }, // Brake lining status for axle 2 wheel 9
+  13723: { name: 'trailer_brake_lining_axle_2_wheel_10_state_enum', unit: 'raw' }, // Brake lining status for axle 2 wheel 10
+  13724: { name: 'trailer_brake_lining_axle_3_wheel_6_state_enum', unit: 'raw' }, // Brake lining status for axle 3 wheel 6
+  13725: { name: 'trailer_brake_lining_axle_3_wheel_7_state_enum', unit: 'raw' }, // Brake lining status for axle 3 wheel 7
+  13726: { name: 'trailer_brake_lining_axle_3_wheel_8_state_enum', unit: 'raw' }, // Brake lining status for axle 3 wheel 8
+  13727: { name: 'trailer_brake_lining_axle_3_wheel_9_state_enum', unit: 'raw' }, // Brake lining status for axle 3 wheel 9
+  13728: { name: 'trailer_brake_lining_axle_3_wheel_10_state_enum', unit: 'raw' }, // Brake lining status for axle 3 wheel 10
+  13729: { name: 'trailer_brake_lining_axle_1_wheel_6_level', unit: '%' }, // Brake lining level for axle 1 wheel 6
+  13730: { name: 'trailer_brake_lining_axle_1_wheel_7_level', unit: '%' }, // Brake lining level for axle 1 wheel 7
+  13731: { name: 'trailer_brake_lining_axle_1_wheel_8_level', unit: '%' }, // Brake lining level for axle 1 wheel 8
+  13732: { name: 'trailer_brake_lining_axle_1_wheel_9_level', unit: '%' }, // Brake lining level for axle 1 wheel 9
+  13733: { name: 'trailer_brake_lining_axle_1_wheel_10_level', unit: '%' }, // Brake lining level for axle 1 wheel 10
+  13734: { name: 'trailer_brake_lining_axle_2_wheel_6_level', unit: '%' }, // Brake lining level for axle 2 wheel 6
+  13735: { name: 'trailer_brake_lining_axle_2_wheel_7_level', unit: '%' }, // Brake lining level for axle 2 wheel 7
+  13736: { name: 'trailer_brake_lining_axle_2_wheel_8_level', unit: '%' }, // Brake lining level for axle 2 wheel 8
+  13737: { name: 'trailer_brake_lining_axle_2_wheel_9_level', unit: '%' }, // Brake lining level for axle 2 wheel 9
+  13738: { name: 'trailer_brake_lining_axle_2_wheel_10_level', unit: '%' }, // Brake lining level for axle 2 wheel 10
+  13739: { name: 'trailer_brake_lining_axle_3_wheel_6_level', unit: '%' }, // Brake lining level for axle 3 wheel 6
+  13740: { name: 'trailer_brake_lining_axle_3_wheel_7_level', unit: '%' }, // Brake lining level for axle 3 wheel 7
+  13741: { name: 'trailer_brake_lining_axle_3_wheel_8_level', unit: '%' }, // Brake lining level for axle 3 wheel 8
+  13742: { name: 'trailer_brake_lining_axle_3_wheel_9_level', unit: '%' }, // Brake lining level for axle 3 wheel 9
+  13743: { name: 'trailer_brake_lining_axle_3_wheel_10_level', unit: '%' }, // Brake lining level for axle 3 wheel 10
+  13744: { name: 'trailer_brake_temperature_axle_1_wheel_6_state_enum', unit: 'raw' }, // Brake temperature status for axle 1 wheel 6
+  13745: { name: 'trailer_brake_temperature_axle_1_wheel_7_state_enum', unit: 'raw' }, // Brake temperature status for axle 1 wheel 7
+  13746: { name: 'trailer_brake_temperature_axle_1_wheel_8_state_enum', unit: 'raw' }, // Brake temperature status for axle 1 wheel 8
+  13747: { name: 'trailer_brake_temperature_axle_1_wheel_9_state_enum', unit: 'raw' }, // Brake temperature status for axle 1 wheel 9
+  13748: { name: 'trailer_brake_temperature_axle_1_wheel_10_state_enum', unit: 'raw' }, // Brake temperature status for axle 1 wheel 10
+  13749: { name: 'trailer_brake_temperature_axle_2_wheel_6_state_enum', unit: 'raw' }, // Brake temperature status for axle 2 wheel 6
+  13750: { name: 'trailer_brake_temperature_axle_2_wheel_7_state_enum', unit: 'raw' }, // Brake temperature status for axle 2 wheel 7
+  13751: { name: 'trailer_brake_temperature_axle_2_wheel_8_state_enum', unit: 'raw' }, // Brake temperature status for axle 2 wheel 8
+  13752: { name: 'trailer_brake_temperature_axle_2_wheel_9_state_enum', unit: 'raw' }, // Brake temperature status for axle 2 wheel 9
+  13753: { name: 'trailer_brake_temperature_axle_2_wheel_10_state_enum', unit: 'raw' }, // Brake temperature status for axle 2 wheel 10
+  13754: { name: 'trailer_brake_temperature_axle_3_wheel_6_state_enum', unit: 'raw' }, // Brake temperature status for axle 3 wheel 6
+  13755: { name: 'trailer_brake_temperature_axle_3_wheel_7_state_enum', unit: 'raw' }, // Brake temperature status for axle 3 wheel 7
+  13756: { name: 'trailer_brake_temperature_axle_3_wheel_8_state_enum', unit: 'raw' }, // Brake temperature status for axle 3 wheel 8
+  13757: { name: 'trailer_brake_temperature_axle_3_wheel_9_state_enum', unit: 'raw' }, // Brake temperature status for axle 3 wheel 9
+  13758: { name: 'trailer_brake_temperature_axle_3_wheel_10_state_enum', unit: 'raw' }, // Brake temperature status for axle 3 wheel 10
+  13759: { name: 'trailer_brake_temperature_axle_1_wheel_6', unit: '°C' }, // Brake temperature for axle 1 wheel 6
+  13760: { name: 'trailer_brake_temperature_axle_1_wheel_7', unit: '°C' }, // Brake temperature for axle 1 wheel 7
+  13761: { name: 'trailer_brake_temperature_axle_1_wheel_8', unit: '°C' }, // Brake temperature for axle 1 wheel 8
+  13762: { name: 'trailer_brake_temperature_axle_1_wheel_9', unit: '°C' }, // Brake temperature for axle 1 wheel 9
+  13763: { name: 'trailer_brake_temperature_axle_1_wheel_10', unit: '°C' }, // Brake temperature for axle 1 wheel 10
+  13764: { name: 'trailer_brake_temperature_axle_2_wheel_6', unit: '°C' }, // Brake temperature for axle 2 wheel 6
+  13765: { name: 'trailer_brake_temperature_axle_2_wheel_7', unit: '°C' }, // Brake temperature for axle 2 wheel 7
+  13766: { name: 'trailer_brake_temperature_axle_2_wheel_8', unit: '°C' }, // Brake temperature for axle 2 wheel 8
+  13767: { name: 'trailer_brake_temperature_axle_2_wheel_9', unit: '°C' }, // Brake temperature for axle 2 wheel 9
+  13768: { name: 'trailer_brake_temperature_axle_2_wheel_10', unit: '°C' }, // Brake temperature for axle 2 wheel 10
+  13769: { name: 'trailer_brake_temperature_axle_3_wheel_6', unit: '°C' }, // Brake temperature for axle 3 wheel 6
+  13770: { name: 'trailer_brake_temperature_axle_3_wheel_7', unit: '°C' }, // Brake temperature for axle 3 wheel 7
+  13771: { name: 'trailer_brake_temperature_axle_3_wheel_8', unit: '°C' }, // Brake temperature for axle 3 wheel 8
+  13772: { name: 'trailer_brake_temperature_axle_3_wheel_9', unit: '°C' }, // Brake temperature for axle 3 wheel 9
+  13773: { name: 'trailer_brake_temperature_axle_3_wheel_10', unit: '°C' }, // Brake temperature for axle 3 wheel 10
+  13774: { name: 'trailer_pneumatic_supply_state_enum', unit: 'raw' }, // Vehicle pneumatic supply status
+  13805: { name: 'trailer_automatic_towed_vehicle_braking_state_enum', unit: 'raw' }, // Automatic towed vehicle braking status
+  13806: { name: 'trailer_electric_supply_non_braking_systems_state_enum', unit: 'raw' }, // Electrical supply of non-braking systems status
+  13807: { name: 'trailer_spring_brake_installation_state_enum', unit: 'raw' }, // Spring brake installation status
+  13808: { name: 'trailer_electric_load_proportional_function_installation_state_enum', unit: 'raw' }, // Electrical load proportional function installation status
+  13810: { name: 'trailer_pneumatic_supply_pressure', unit: 'kPa' }, // Trailer pneumatic supply pressure
+  20012: { name: 'recovery_alarm', unit: 'bool' }, // Recovery alarm
+  20015: { name: 'modem_uptime', unit: 's' }, // The total time the modem has been powered on
+  20016: { name: 'network_signal_rsrp', unit: 'dbm' }, // LTE reference signal received power (RSRP)
+  20017: { name: 'gsm_signal_quality', unit: 'raw' }, // The quality (bit error rate) of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  20019: { name: 'tamper_alarm_state', unit: 'raw' }, // Tamper record event reason
+  25015: { name: 'modem_uptime', unit: 's' }, // The total time the modem has been powered on
+  25016: { name: 'network_signal_rsrp', unit: 'dbm' }, // LTE reference signal received power (RSRP)
+  25017: { name: 'gsm_signal_quality', unit: 'raw' }, // The quality (bit error rate) of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  25019: { name: 'gsm_signal_dbm', unit: 'dbm' }, // Strength of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  25020: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  25021: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  25022: { name: 'gsm_signal_dbm', unit: 'dbm' }, // Strength of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  25023: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  25024: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  25025: { name: 'gsm_signal_dbm', unit: 'dbm' }, // Strength of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  25026: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  25027: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  25028: { name: 'gsm_signal_dbm', unit: 'dbm' }, // Strength of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  25029: { name: 'gsm_lac', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) location area code
+  25030: { name: 'gsm_cellid', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) base station ID
+  25031: { name: 'gsm_signal_dbm', unit: 'dbm' }, // Strength of the Mobile network (GSM, 3G, 4G, LTE, 5G, ...) signal
+  25032: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  25033: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  25034: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  25035: { name: 'gsm_mnc', unit: 'raw' }, // Mobile network (GSM, 3G, 4G, LTE, 5G, ...) code
+  25036: { name: 'wifi_mac_address', unit: 'raw' }, // WiFi MAC address
+  25037: { name: 'wifi_mac_address', unit: 'raw' }, // WiFi MAC address
+  25038: { name: 'wifi_mac_address', unit: 'raw' }, // WiFi MAC address
+  25039: { name: 'wifi_mac_address', unit: 'raw' }, // WiFi MAC address
+  25040: { name: 'wifi_mac_address', unit: 'raw' }, // WiFi MAC address
+  25041: { name: 'wifi_mac_address', unit: 'raw' }, // WiFi MAC address
   124451: { name: 'auxil_ext_valve_number_9', unit: '%' }, // Auxil ext valve number 9
 };
 
