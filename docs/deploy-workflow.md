@@ -1,6 +1,6 @@
 # Deploy Workflow Teltonika-Server
 
-SSH-deploy naar de productieserver is de bewezen werkwijze. `.github/workflows/deploy.yml` (ghcr push + self-hosted runner) staat nog in de repo maar **werkt niet**: ghcr-push faalt met 403 (package nooit gelinkt aan deze repo in GitHub package-settings) en er draait geen self-hosted Actions runner op de server. Niet vertrouwen op automatische deploy via push naar `main` totdat dit expliciet gefixt is — zie "CI/CD status" onderaan.
+**2026-07-20: CI/CD werkt weer.** Push naar `main` triggert `.github/workflows/deploy.yml`, dat via SSH (`appleboy/ssh-action`, secret `TELTONIKA_DEPLOY_SSH_KEY`) inlogt op de server en `deploy.sh` draait. Geen ghcr, geen self-hosted runner meer nodig. Zie "CI/CD status" onderaan voor de opzet en hoe je 'm zou uitbreiden/aanpassen. Handmatige SSH-deploy hieronder blijft werken als fallback (bv. als de Actions-run zelf niet start).
 
 ## Server
 
@@ -47,12 +47,15 @@ docker compose logs -f teltonika   # wacht op eerstvolgend avl_data bericht, che
 
 ## CI/CD status
 
-`.github/workflows/deploy.yml` bouwt op `ubuntu-latest` en pusht naar `ghcr.io/wouthankel/teltonika-server`, gevolgd door een `deploy`-job op `runs-on: self-hosted`. Beide stappen zijn momenteel kapot:
+Sinds 2026-07-20 werkt CD automatisch via SSH, geen ghcr en geen self-hosted runner meer (de oude opzet met beide is verwijderd — faalde altijd met 403 op de ghcr-push en had toch geen runner om de deploy-job te draaien).
 
-- **Build/push**: 403 Forbidden op de eerste blob-push. Ghcr-package voor een **user-owned** (niet org) repo moet los gelinkt worden aan de repo via package-settings (`github.com/users/wouthankel/packages/container/teltonika-server/settings` → Manage Actions access), of eenmalig handmatig gepusht worden met een classic PAT (`write:packages`) om het package aan te maken. Kan niet via API/CLI, alleen via web-UI.
-- **Deploy**: geen self-hosted runner geregistreerd op `ritlijst-teltonika` (gecheckt: geen `actions-runner`-directory, geen systemd-unit). Deze job zou oneindig "queued" blijven staan als de build-stap wel zou slagen.
+Opzet:
+- `.github/workflows/deploy.yml` draait op een gewone `ubuntu-latest` GitHub-hosted runner, gebruikt `appleboy/ssh-action` om in te loggen op `root@88.99.121.53` met secret `TELTONIKA_DEPLOY_SSH_KEY`.
+- Die SSH-key (ed25519, alleen aangemaakt voor dit doel) staat in `~/.ssh/authorized_keys` op de server met een **forced command**: `command="/var/teltonika-server/deploy.sh",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty`. Wat de workflow ook stuurt, de server draait altijd exact `deploy.sh` — de key kan niet gebruikt worden voor een vrije root-shell, ook niet als het secret ooit lekt.
+- `/var/teltonika-server/deploy.sh` (op de server, niet in git — server-specifiek net als `.env`/`certs/`): `git fetch && git reset --hard origin/main && docker compose build && docker compose up -d --force-recreate`. Let op: dit is een **harde reset**, in tegenstelling tot de `git pull --ff-only` in de handmatige procedure hierboven — bedoeld voor deterministische CD, niet voor gebruik als er bewust lokale server-wijzigingen open staan (zie migratie-sectie hierboven voor waarom dat een keer belangrijk was).
+- De losse `claude-code@ritlijst` root-key (onbeperkt) staat nog los in `authorized_keys` voor interactief SSH-beheer — de deploy-key is een aparte regel, geen vervanging daarvan.
 
-Zolang dit niet gefixt is: **handmatig deployen zoals hierboven**, net als bij de Ritlijst Hub (`RL-Portal/docs/operations/deploy-workflow.md`) en CRM — CD is daar ook "voorbereid, nog niet actief" om dezelfde reden (geen runner/secrets).
+Om de deploy-key te roteren: nieuw keypair genereren, public key met dezelfde forced-command-restrictie toevoegen aan `authorized_keys` op de server, oude regel verwijderen, `gh secret set TELTONIKA_DEPLOY_SSH_KEY --repo wouthankel/RL-Teltonika` met de nieuwe private key.
 
 ## Niet doen
 
