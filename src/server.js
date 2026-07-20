@@ -4,7 +4,7 @@ const path = require('path');
 const { parseImei, parseAvlPacket } = require('./parser');
 const log = require('./logger');
 const { enqueue } = require('./queue');
-const api = require('./api');
+const worker = require('./worker');
 
 const PORT = process.env.PORT || 5027;
 const CERT_PATH = process.env.TLS_CERT_PATH || path.join(__dirname, '../certs/server.crt');
@@ -85,8 +85,10 @@ const server = tls.createServer(tlsOptions, (socket) => {
       records: parsed.records,
     };
 
+    // TCP-ACK hangt niet af van Hub-bereikbaarheid: alleen enqueuen, de worker
+    // levert af richting Hub (zie worker.js) - zo absorbeert de Redis-queue
+    // een reconnect-storm i.p.v. dat die storm 1-op-1 naar Hub doorschiet.
     enqueue(payload);
-    api.send(payload);
 
     // ACK: 4-byte number of accepted records
     const ack = Buffer.alloc(4);
@@ -106,6 +108,8 @@ const server = tls.createServer(tlsOptions, (socket) => {
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`\x1b[32mTeltonika TCP server listening on 0.0.0.0:${PORT}\x1b[0m`);
 });
+
+worker.run();
 
 server.on('error', (err) => {
   console.error('Server error:', err.message);

@@ -10,8 +10,13 @@ const RETRY_DELAY_MS = parseInt(process.env.HUB_INGEST_RETRY_DELAY_MS || '1000',
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Hub verwacht een los event per AVL record (packet_id, device_serial, recorded_at, lat/lng, ...).
+// Retourneert true als alle records zijn afgeleverd, false als er minstens één
+// record blijvend faalde (na retries) - de caller (worker) requeuet dan het
+// hele packet, dus Hub-side idempotency (packet_id) moet dubbele records afvangen.
 async function send(payload) {
-  if (!BASE_URL || !TOKEN) return;
+  if (!BASE_URL || !TOKEN) return true;
+
+  let allOk = true;
 
   for (const record of payload.records) {
     const packetId = `${payload.imei}-${record.timestamp}`;
@@ -30,8 +35,17 @@ async function send(payload) {
       io: record.io,
     };
 
-    await sendRecord(payload.imei, packetId, body);
+    const ok = await sendRecord(payload.imei, packetId, body);
+    if (!ok) allOk = false;
   }
+
+  return allOk;
+}
+
+// Retryable: 429 (rate limit) en 5xx (server-kant). 4xx (behalve 429) is een
+// permanente afwijzing (bv. malformed payload) - opnieuw proberen lost niets op.
+function isRetryableStatus(status) {
+  return status === 429 || status >= 500;
 }
 
 async function sendRecord(imei, packetId, body) {
@@ -42,7 +56,7 @@ async function sendRecord(imei, packetId, body) {
       const res = await postRecord(body);
 
       if (res.ok) {
-        return;
+        return true;
       }
 
       const responseBody = await res.text();
@@ -54,12 +68,21 @@ async function sendRecord(imei, packetId, body) {
         body: responseBody.slice(0, 300),
       };
 
-      if (res.status < 500 || attempt === RETRY_ATTEMPTS) {
+      if (!isRetryableStatus(res.status)) {
+        log.warn(imei, 'hub_ingest_rejected', context);
+        return true; // permanente afwijzing, niet opnieuw in de queue zetten
+      }
+
+      if (attempt === RETRY_ATTEMPTS) {
         log.warn(imei, 'hub_ingest_failed', context);
-        return;
+        return false;
       }
 
       log.warn(imei, 'hub_ingest_retry', context);
+
+      const retryAfterMs = parseRetryAfter(res.headers.get('retry-after'));
+      await sleep(retryAfterMs ?? RETRY_DELAY_MS * attempt);
+      continue;
     } catch (err) {
       lastError = err;
 
@@ -85,6 +108,15 @@ async function sendRecord(imei, packetId, body) {
     attempts: RETRY_ATTEMPTS,
     timeout_ms: TIMEOUT_MS,
   });
+  return false;
+}
+
+function parseRetryAfter(headerValue) {
+  if (!headerValue) return null;
+  const seconds = Number(headerValue);
+  if (Number.isFinite(seconds)) return seconds * 1000;
+  const dateMs = Date.parse(headerValue);
+  return Number.isFinite(dateMs) ? Math.max(0, dateMs - Date.now()) : null;
 }
 
 function postRecord(body) {

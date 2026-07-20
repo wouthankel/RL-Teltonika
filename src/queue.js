@@ -62,4 +62,23 @@ async function enqueue(packet) {
   log.warn(null, 'redis_unavailable_buffered', { buffered: localBuffer.length });
 }
 
-module.exports = { enqueue };
+// FIFO t.o.v. enqueue (LPUSH aan de kop, BRPOP haalt van de staart).
+// Blokkeert tot er iets is of tot timeoutSeconds verstrijkt (dan null).
+async function dequeue(timeoutSeconds = 5) {
+  if (redis.status !== 'ready') return null;
+  try {
+    const result = await redis.brpop(QUEUE_KEY, timeoutSeconds);
+    if (!result) return null;
+    return JSON.parse(result[1]);
+  } catch (err) {
+    log.error(null, 'redis_dequeue_failed', { message: err.message });
+    return null;
+  }
+}
+
+function queueLength() {
+  if (redis.status !== 'ready') return Promise.resolve(localBuffer.length);
+  return redis.llen(QUEUE_KEY).catch(() => -1);
+}
+
+module.exports = { enqueue, dequeue, queueLength };
